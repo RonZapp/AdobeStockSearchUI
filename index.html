@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf8">
+        <!--<link rel="stylesheet" href="style.css">-->
+        
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://sliptree.github.io/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script type="text/javascript" src="https://sliptree.github.io/bootstrap-tokenfield/dist/bootstrap-tokenfield.js"></script>
+        <style>
+            #pageNumberArea > * {
+                font-size: 24pt;
+				
+            }
+			
+			#pageNumberArea {
+				margin:auto;
+			}
+
+            ._onClk {
+                color:#FFFF00;
+                font-size: 22pt;
+            }
+            #sp {
+                color:white;
+            }
+
+            #query {
+                font-size: 1.5rem;
+                height: 80px;
+                padding: 20px 28px;
+                padding-top: 20px;
+                padding-right: 28px;
+                padding-bottom: 20px;
+                padding-left: 28px;
+                font-weight: 300;
+                box-sizing: border-box;
+				width:90%;
+            }
+
+            #search-text-input-button {
+                font-size: 15pt;
+                width: 120px;
+                border-bottom-left-radius: 0;
+                border-top-left-radius: 0;
+				
+            }
+
+            #searchFull > * {
+                font-size: 18pt;
+            }
+
+            .tokenfield .token {
+                height: auto;
+            }
+
+            #searchFull {
+                min-height: auto;
+                font-size: 18pt;
+            }
+
+            #backButton {
+                text-align: center;
+                align-content: center;
+                align-self: center;
+            }
+
+            body {
+                margin: 10px;
+            }
+            
+            #imageDiv {
+                column-count: 6;
+				clear:both;
+            }
+            .resultImage {
+                display: inline-block;
+                /*margin: 0 0 1em;
+                width: 100%;*/
+                width: 100%;
+                margin-left: 10px;
+                margin-right: 10px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                box-shadow: 2px 2px 4px 0 #ccc;
+            }
+
+            .resultImage.text {
+                opacity: 0;
+            }
+
+            .resultImage:hover {
+                display: inline-block;
+                /*margin: 0 0 1em;
+                width: 100%;*/
+                width: 100%;
+                margin-left: 10px;
+                margin-right: 10px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                box-shadow: -10px -10px 5px #4caf50;
+                opacity: 1;
+            }
+
+            .resultImage:hover.text {
+                opacity: 1;
+            }
+
+            .tagname {
+                color: white;
+                text-decoration-color: white;
+                text-decoration-line: inherit;
+            }
+            ._resulttag {
+                display: inline-block;
+                margin: 0 0 1em;
+                width: 100%;
+                background-color: #4caf50;
+                margin: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+                margin-bottom: 10px;
+                margin-top: 10px;
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                box-shadow: 2px 2px 4px 0 #4caf50;
+				padding-left:4px;
+            }
+			
+			._resulttag A:hover {
+				color:#fdfdfd;			  
+			}
+            #displaytags {
+                column-count: 5;
+                /*column-gap: 1em;*/
+            }
+			
+			#logo {
+				background: #131317;
+    			min-height: 38px;
+				width:340px;
+				padding:6px;
+				float:left;
+				color:#cdcdcd;
+				margin-right:10px;
+			}
+        </style>
+    </head> 
+    <body>
+        <div id="displaytags"></div>
+        <div id= "searchbar">
+           <div id="logo"> Powered By  &nbsp;<img src="https://as.ftcdn.net/r/v1/pics/e3b26db09522478ae2cf299f82c6df5ba36824e5/all/default/stock_logo.png" height=32/></div>
+            <form method="GET" id="mainForm" action="http://localhost:8888/">
+                <div id="searchFull" class="input-group">
+                    <input type="text" name="q" id="query" placeholder="&nbsp;Search high-quality images, graphics and videos" onkeydown="
+                    if (event.keyCode === 13) {
+                        if (this.value !== this.getAttribute('value')) {
+                            var pageBox = document.getElementById('truePageNumber');
+                            pageBox.value = 1;
+                        }
+                    }
+                    "/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default glyphicon" id="search-text-input-button" type="submit" onclick="
+                        var searchBox = document.getElementById('query');
+                        if (searchBox.value !== searchBox.getAttribute('value')) {
+                            var pageBox = document.getElementById('truePageNumber');
+                            pageBox.value = 1;
+                        }
+                        var tags = document.getElementById('tags');">
+                            &#xe003;
+                        </button>
+                    </span>
+
+                    <!--<input type="submit" name="Submit" class="glyphicon" id="search-text-input-button" value="&#xe003;" onclick="
+                    
+                    /*if (tags.value.length() > 0) {
+                        tags.value = encodeURIComponent(tags.value);
+                        console.log(tags.value);
+                    }*/
+                    "/>-->
+                    <input type="hidden" name="URLQuery" id="urlQuery">
+                    <input type="hidden" name="PageNumber" id="truePageNumber">
+                </div>
+            </form>
+            <div align="left" id="imageDiv"></div>
+            <div id="pageNumberArea" class="input-group">
+                <button class="btn btn-default glyphicon" id="backButton" type="submit" onclick="
+                var pageBox = document.getElementById('pageNumber');
+                pageBox.value = Math.max(Number(pageBox.getAttribute('value')) - 1, 1);
+                // Set the search to be the original search query.
+                var searchBox = document.getElementById('query');
+                searchBox.value = searchBox.getAttribute('value');
+
+                $('#truePageNumber').val(pageBox.value);
+                $('#mainForm').submit();
+                ">
+                    &#xe091;
+                </button>
+                <label for="PageNumber">Page</label>
+                <input type="text" id="pageNumber" onkeydown="
+                var pageBox = document.getElementById('pageNumber');
+                var currentPage = pageBox.value;
+                var maxPage = document.getElementById('maxPageNumber').textContent;
+                // If enter key pressed, correct the page to be between 1 and max page.
+                if (event.keyCode === 13) {
+                    if (!Number.isNaN(currentPage)) {
+                        pageBox.value = Math.max(Math.min(Number(currentPage), Number(maxPage)), 1);
+                    }
+                    // Set the search to be the original search query.
+                    var searchBox = document.getElementById('query');
+                    searchBox.value = searchBox.getAttribute('value');
+                }
+                
+                $('#truePageNumber').val(currentPage);
+                $('#mainForm').submit();
+                ">
+                <label for="MaxPageNumberOf">of</label>
+                <label for="MaxPageNumber" id="maxPageNumber" style="padding-left: 18px;"></label>
+                <button class="btn btn-default glyphicon" id="forwardButton" type="submit" onclick="
+                var pageBox = document.getElementById('pageNumber');
+                var pageNumber = document.getElementById('maxPageNumber').textContent;
+                pageBox.value = Math.min(Number(pageBox.getAttribute('value')) + 1, Number(pageNumber));
+                // Set the search to be the original search query.
+                var searchBox = document.getElementById('query');
+                searchBox.value = searchBox.getAttribute('value');
+
+                $('#truePageNumber').val(pageBox.value);
+                $('#mainForm').submit();
+                ">
+                    &#xe092;
+                </button>
+            </div>
+        </div>
+        <script>
+			function parseUri (str) {
+				var	o   = parseUri.options,
+					m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+					uri = {},
+					i   = 14;
+
+				while (i--) uri[o.key[i]] = m[i] || "";
+
+				uri[o.q.name] = {};
+				uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+					if ($1) uri[o.q.name][$1] = $2;
+				});
+
+				return uri;
+			};
+			
+
+			parseUri.options = {
+				strictMode: false,
+				key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+				q:   {
+					name:   "queryKey",
+					parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+				},
+				parser: {
+					strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+					loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+				}
+			};
+
+            var tags = [];
+
+            var tagsParent = $('.sp');
+
+            tagsParent.each(function() {
+                tags.push($(this).text());
+            });
+			
+			if(parseUri(document.location).queryKey['URLQuery'] != 'undefined' && parseUri(document.location).queryKey['URLQuery'].length  ) {
+				if(document.getElementById("query").value.indexOf(' img') == -1) document.getElementById("query").value+= ' img'	
+			}
+	
+                
+            $('#query').on('tokenfield:initialize', function (e) {
+				window.setTimeout(function() {
+					if(parseUri(document.location).queryKey['URLQuery'] != 'undefined' && parseUri(document.location).queryKey['URLQuery'].length  ) {
+					var tags = $('span.token-label');
+					for(var i=0;i<tags.length;i++) {
+						console.log($(tags[i]).text())
+						if($(tags[i]).text() == 'img') {								
+							var img = document.createElement("IMG");
+							img.setAttribute('src', decodeURIComponent(parseUri(document.location.search).queryKey['URLQuery']));
+							img.setAttribute('height', '34px')
+							$(tags[i]).html( img )
+						}
+					}
+				}},500);
+			}).tokenfield({
+                autocomplete: {
+                    source: tags,
+                    delay: 100
+                },
+                delimiter: [ ' ', ',' ],
+                showAutocompleteOnFocus: true
+            });
+			
+
+            $('.ui-helper-hidden-accessible').remove();
+			
+			$(document).ready(function() {
+				$("#mainForm").attr("action", "http://" + document.location.hostname + ":8888")
+				
+			})
+        </script>
+    </body>
+</html>
